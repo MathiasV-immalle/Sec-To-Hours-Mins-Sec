@@ -6,38 +6,45 @@ using System.Threading.Tasks;
 
 namespace STHMS
 {
-    struct HMSTime
+    class Time
     {
-        public int Hours;
-        public int Mins;
-        public int Secs;
+        private int totalSecs;
+        private int hours;
+        private int mins;
+        private int secs;
+
+        public Time(int totalSeconds)
+        {
+            totalSecs = totalSeconds;
+
+            int rest = 0;
+
+            hours = totalSeconds / (60 * 60);
+            rest = totalSeconds % (60 * 60);
+            mins = rest / 60;
+            secs = rest % 60;
+        }
+
+        public int Hours { get { return hours; } }
+        public int Mins { get { return mins; } }
+        public int Secs { get { return secs; } }
+        public int TotalSeconds { get { return totalSecs; } }
 
         public override string ToString()
         {
-            return String.Format("{0} hours {1} minutes and {2} seconds", Hours, Mins, Secs);
+            return string.Format("{0} hours {1} minutes and {2} seconds", hours, mins, secs);
         }
     }
 
     class Program
     {
-        static HMSTime SecToHMS(int totalSeconds)
-        {
-            HMSTime time;
-            int rest = 0;
-
-            time.Hours = totalSeconds / (60 * 60);
-            rest = totalSeconds % (60 * 60);
-            time.Mins = rest / 60;
-            time.Secs = rest % 60;
-
-            return time;
-        }
-
         static void Main(string[] args)
         {
-            HMSTime time = SecToHMS(61000);
-            Console.WriteLine("{0} hours {1} minutes and {2} seconds", time.Hours, time.Mins, time.Secs);
-        }
+            Time t = new Time(61);
 
+            Console.WriteLine(t);
+            Console.WriteLine("{0} seconden zijn eigenlijk {1} uur, {2} minuten en {3} seconden.",
+                t.TotalSeconds, t.Hours, t.Mins, t.Secs);
+        }
     }
 }
