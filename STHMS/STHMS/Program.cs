@@ -6,28 +6,38 @@ using System.Threading.Tasks;
 
 namespace STHMS
 {
+    struct HMSTime
+    {
+        public int Hours;
+        public int Mins;
+        public int Secs;
+
+        public override string ToString()
+        {
+            return String.Format("{0} hours {1} minutes and {2} seconds", Hours, Mins, Secs);
+        }
+    }
+
     class Program
     {
-        static void SecsToHoursMinsSecs(int totalSeconds, out int hours, out int mins, out int secs)
+        static HMSTime SecToHMS(int totalSeconds)
         {
-            // tijdelijke tussentijdse variabele
+            HMSTime time;
             int rest = 0;
 
-            // algoritme:
-            hours = totalSeconds / (60 * 60);
+            time.Hours = totalSeconds / (60 * 60);
             rest = totalSeconds % (60 * 60);
-            mins = rest / 60;
-            secs = rest % 60;
+            time.Mins = rest / 60;
+            time.Secs = rest % 60;
+
+            return time;
         }
+
         static void Main(string[] args)
         {
-            int h = 0;
-            int m = 0;
-            int s = 0;
-
-            SecsToHoursMinsSecs(61, out h, out m, out s);
-
-            Console.WriteLine("{0} hours {1} minutes and {2} seconds", h, m, s);
+            HMSTime time = SecToHMS(61000);
+            Console.WriteLine("{0} hours {1} minutes and {2} seconds", time.Hours, time.Mins, time.Secs);
         }
+
     }
 }
